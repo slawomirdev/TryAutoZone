@@ -1,8 +1,38 @@
-﻿@{
+﻿@model IEnumerable<TryAutoZone.Models.Car>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+@*<div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>*@
+
+<div class="container">
+    <div class="row">
+        @foreach (var car in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <!-- Zdjęcie samochodu -->
+                    <img src="https://campaigns.sites.toyota.pl/assets/images/campaigns/pl/cars/camry/subpage.b6ad860430fbefce15d05484af2f62cb.png" alt="Samochód" class="img-fluid">
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Make @car.Model</h5>
+                        <p class="card-text">
+                            Rok: @car.Year<br>
+                            Moc: @car.HorsePower KM<br>
+                            Pojemność silnika: @car.EngineCapacity cm³<br>
+                            Rodzaj silnika: @car.EngineType<br>
+                            Skrzynia biegów: @car.Gearbox<br>
+                            Emisja CO2: @car.CO2Emission g/km<br>
+                             Zużycie paliwa: @String.Format("{0:F1}", car.FuelConsumption) l/100km
+                        </p>
+                        <!-- Link do rezerwacji (jeśli potrzebujesz) -->
+         @*               <!-- <a href="@Url.Action("Reserve", "Cars", new { id = car.Id })" class="btn btn-primary">Rezerwuj</a> -->*@
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

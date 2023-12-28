@@ -1,8 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using TryAutoZone.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Culture set
+var cultureInfo = new CultureInfo("pl-PL");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

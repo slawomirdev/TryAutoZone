@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TryAutoZone.Data;
 
@@ -11,9 +12,10 @@ using TryAutoZone.Data;
 namespace TryAutoZone.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231227225056_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,27 +234,9 @@ namespace TryAutoZone.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CO2Emission")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EngineCapacity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EngineType")
-                        .HasColumnType("int");
-
-                    b.Property<double>("FuelConsumption")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("float(5)");
-
-                    b.Property<int>("Gearbox")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HorsePower")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Make")
-                        .HasColumnType("int");
+                    b.Property<string>("Make")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Model")
                         .IsRequired()

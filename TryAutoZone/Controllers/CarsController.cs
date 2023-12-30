@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TryAutoZone.Data;
+using System.Security.Claims;
 using TryAutoZone.Models;
 
 namespace TryAutoZone.Controllers
@@ -171,6 +173,30 @@ namespace TryAutoZone.Controllers
         private bool CarExists(int id)
         {
           return (_context.Car?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Reserve(int id)
+        {
+            var car = await _context.Car.FirstOrDefaultAsync(c => c.Id == id);
+            if (car == null || car.IsReserved)
+            {
+                return NotFound();
+            }
+
+            var reservation = new Reservation
+            {
+                CarId = car.Id,
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                ReservationDate = DateTime.Now
+            };
+
+            car.IsReserved = true;
+
+            _context.Add(reservation);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

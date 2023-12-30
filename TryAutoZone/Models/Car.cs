@@ -46,5 +46,6 @@ namespace TryAutoZone.Models
 
         [Range(0, 100, ErrorMessage = "Zużycie paliwa musi być w zakresie od 0 do 100 l/100km.")]
         public double FuelConsumption { get; set; } // Zużycie paliwa jako liczba
+        public bool IsReserved { get; set; }
     }
 }

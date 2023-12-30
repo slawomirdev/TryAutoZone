@@ -11,6 +11,7 @@ namespace TryAutoZone.Data
         {
         }
         public DbSet<TryAutoZone.Models.Car>? Car { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -29,7 +29,11 @@
                              Zużycie paliwa: @String.Format("{0:F1}", car.FuelConsumption) l/100km
                         </p>
                         <!-- Link do rezerwacji (jeśli potrzebujesz) -->
-         @*               <!-- <a href="@Url.Action("Reserve", "Cars", new { id = car.Id })" class="btn btn-primary">Rezerwuj</a> -->*@
+                        @*               <!-- <a href="@Url.Action("Reserve", "Cars", new { id = car.Id })" class="btn btn-primary">Rezerwuj</a> -->*@
+                        @if (!car.IsReserved)
+                        {
+                            <a asp-controller="Cars" asp-action="Reserve" asp-route-id="@car.Id" class="btn btn-primary">Rezerwuj</a>
+                        }
                     </div>
                 </div>
             </div>

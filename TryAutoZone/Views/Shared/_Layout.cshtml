@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -24,15 +29,18 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Index">Samochody</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Rezerwacje</a>
+                            </li>
+                        }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Index">Samochody</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Polityka prywatności</a>
                         </li>
-                       <li class="nav-item">
-                           <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Rezerwacje</a>
-                       </li>
-                       <li class="nav-item">
-                           <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Polityka prywatności</a>
-                       </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

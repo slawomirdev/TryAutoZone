@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +22,7 @@ namespace TryAutoZone.Controllers
         }
 
         // GET: Reservations
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Reservations.Include(r => r.Car).Include(r => r.User);
@@ -27,6 +30,7 @@ namespace TryAutoZone.Controllers
         }
 
         // GET: Reservations/Details/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Reservations == null)
@@ -47,6 +51,7 @@ namespace TryAutoZone.Controllers
         }
 
         // GET: Reservations/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             ViewData["CarId"] = new SelectList(_context.Car, "Id", "Id");
@@ -59,6 +64,7 @@ namespace TryAutoZone.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,UserId,CarId,ReservationDate")] Reservation reservation)
         {
             if (ModelState.IsValid)
@@ -73,6 +79,7 @@ namespace TryAutoZone.Controllers
         }
 
         // GET: Reservations/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Reservations == null)
@@ -95,6 +102,7 @@ namespace TryAutoZone.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,CarId,ReservationDate")] Reservation reservation)
         {
             if (id != reservation.Id)
@@ -128,6 +136,7 @@ namespace TryAutoZone.Controllers
         }
 
         // GET: Reservations/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Reservations == null)
@@ -137,12 +146,20 @@ namespace TryAutoZone.Controllers
 
             var reservation = await _context.Reservations
                 .Include(r => r.Car)
-                .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
                 return NotFound();
             }
+
+            _context.Reservations.Remove(reservation);
+            if (reservation.Car != null)
+            {
+                reservation.Car.IsReserved = false;
+                _context.Update(reservation.Car);
+            }
+
+            await _context.SaveChangesAsync();
 
             return View(reservation);
         }
@@ -150,6 +167,7 @@ namespace TryAutoZone.Controllers
         // POST: Reservations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Reservations == null)

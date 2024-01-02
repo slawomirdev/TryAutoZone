@@ -34,3 +34,7 @@ body {
     margin-right: auto;
     width: 80%; 
 }
+
+.card, .testimonial, .btn {
+    border-radius: 8px !important;
+}

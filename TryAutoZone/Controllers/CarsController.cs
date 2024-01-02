@@ -23,6 +23,7 @@ namespace TryAutoZone.Controllers
         }
 
         // GET: Cars
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
               return _context.Car != null ? 
@@ -49,6 +50,7 @@ namespace TryAutoZone.Controllers
         }
 
         // GET: Cars/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -59,6 +61,7 @@ namespace TryAutoZone.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,Make,Model,Year,HorsePower,EngineCapacity,EngineType,Gearbox,CO2Emission,FuelConsumptionString")] Car car)
         {
             if (ModelState.IsValid)
@@ -83,6 +86,7 @@ namespace TryAutoZone.Controllers
         }
 
         // GET: Cars/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Car == null)
@@ -103,6 +107,7 @@ namespace TryAutoZone.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Make,Model,Year")] Car car)
         {
             if (id != car.Id)
@@ -134,6 +139,7 @@ namespace TryAutoZone.Controllers
         }
 
         // GET: Cars/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Car == null)
@@ -154,6 +160,7 @@ namespace TryAutoZone.Controllers
         // POST: Cars/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Car == null)
@@ -176,7 +183,7 @@ namespace TryAutoZone.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Reserve(int id)
+        public async Task<IActionResult> Reserve(int id, DateTime reservationDate)
         {
             var car = await _context.Car.FirstOrDefaultAsync(c => c.Id == id);
             if (car == null || car.IsReserved)
@@ -184,19 +191,26 @@ namespace TryAutoZone.Controllers
                 return NotFound();
             }
 
+            if (reservationDate < DateTime.Now.Date || reservationDate > DateTime.Now.AddDays(3).Date)
+            {
+                ModelState.AddModelError("", "Data rezerwacji musi być w zakresie od dzisiaj do 3 dni do przodu.");
+                return View("Details", car);
+            }
+
             var reservation = new Reservation
             {
                 CarId = car.Id,
                 UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                ReservationDate = DateTime.Now
+                ReservationDate = reservationDate
             };
 
             car.IsReserved = true;
-
             _context.Add(reservation);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            TempData["ReservationSuccessMessage"] = "Rezerwacja została pomyślnie złożona.";
+
+            return View("Details", car);
         }
     }
 }

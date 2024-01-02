@@ -6,7 +6,7 @@
 
 <div class="container mb-4">
     <div class="jumbotron">
-        <h1 class="display-4">Doświadcz Jazdy z Toyota w TryAutoZone</h1>
+        <h1 class="display-5">Doświadcz Jazdy z Toyotą w TryAutoZone</h1>
         <p class="lead">Odkryj pełnię możliwości samochodów Toyota podczas jazdy próbnej.</p>
         <hr class="my-4">
         <p>W TryAutoZone specjalizujemy się w organizowaniu jazd próbnych z gamą pojazdów Toyota. Nasz serwis oferuje unikalną możliwość przetestowania różnych modeli Toyota, abyś mógł doświadczyć ich wyjątkowych cech i komfortu jazdy. Proces rezerwacji jest prosty i szybki, dzięki czemu możesz łatwo zaplanować swoją jazdę próbną.</p>
@@ -14,6 +14,11 @@
 </div>
 
 <div class="container mb-4">
+    <div class="row mb-3">
+        <div class="col-12">
+            <h2 class="text-center">Auta w Wypożyczalni</h2>
+        </div>
+    </div>
     <div class="row">
         @foreach (var car in Model)
         {
@@ -26,16 +31,26 @@
                         <p class="card-text">
                             Rok: @car.Year<br>
                             Moc: @car.HorsePower KM<br>
-                            Pojemność silnika: @car.EngineCapacity cm³<br>
                             Rodzaj silnika: @car.EngineType<br>
                             Skrzynia biegów: @car.Gearbox<br>
-                            Emisja CO2: @car.CO2Emission g/km<br>
-                            Zużycie paliwa: @String.Format("{0:F1}", car.FuelConsumption) l/100km
                         </p>
-                        @if (!car.IsReserved)
-                        {
-                            <a asp-controller="Cars" asp-action="Reserve" asp-route-id="@car.Id" class="btn btn-primary">Rezerwuj</a>
-                        }
+                        <div class="card-body">
+                            <div class="d-flex flex-column">
+                                @if (!car.IsReserved)
+                                {
+                                    <form asp-controller="Cars" asp-action="Reserve" asp-route-id="@car.Id">
+                                        <input type="datetime-local" name="reservationDateTime" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" max="@DateTime.Now.AddDays(3).ToString("yyyy-MM-ddTHH:mm")" class="form-control mb-2" required />
+                                        <button type="submit" class="btn btn-primary">Rezerwuj</button>
+                                    </form>
+                                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-secondary mt-2">Szczegóły</a>
+                                }
+                                else
+                                {
+                                    <p class="text-danger text-center">Auto Zarezerwowane</p>
+                                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-secondary">Szczegóły</a>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

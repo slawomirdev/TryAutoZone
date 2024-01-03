@@ -66,14 +66,13 @@ namespace TryAutoZone.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Konwersja FuelConsumptionString na double
                 if (double.TryParse(car.FuelConsumptionString.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out double fuelConsumption))
                 {
-                    car.FuelConsumption = fuelConsumption; // Zapisz przekonwertowaną wartość
+                    car.FuelConsumption = Math.Round(fuelConsumption, 1);
+                    car.FuelConsumptionString = car.FuelConsumption.ToString("F1", CultureInfo.InvariantCulture);
                 }
                 else
                 {
-                    // Dodaj błąd do ModelState, jeśli konwersja nie powiedzie się
                     ModelState.AddModelError("FuelConsumptionString", "Nieprawidłowy format zużycia paliwa.");
                     return View(car);
                 }
@@ -99,6 +98,9 @@ namespace TryAutoZone.Controllers
             {
                 return NotFound();
             }
+
+            car.FuelConsumptionString = car.FuelConsumption.ToString("F1", CultureInfo.InvariantCulture);
+
             return View(car);
         }
 
@@ -108,7 +110,7 @@ namespace TryAutoZone.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Make,Model,Year")] Car car)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Make,Model,Year,HorsePower,EngineCapacity,EngineType,Gearbox,CO2Emission,FuelConsumptionString")] Car car)
         {
             if (id != car.Id)
             {
@@ -119,6 +121,17 @@ namespace TryAutoZone.Controllers
             {
                 try
                 {
+                    if (double.TryParse(car.FuelConsumptionString.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out double fuelConsumption))
+                    {
+                        car.FuelConsumption = Math.Round(fuelConsumption, 1);
+                        car.FuelConsumptionString = car.FuelConsumption.ToString("F1", CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("FuelConsumptionString", "Nieprawidłowy format zużycia paliwa.");
+                        return View(car);
+                    }
+
                     _context.Update(car);
                     await _context.SaveChangesAsync();
                 }
@@ -183,7 +196,7 @@ namespace TryAutoZone.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Reserve(int id, DateTime reservationDate)
+        public async Task<IActionResult> Reserve(int id, DateTime reservationDateTime)
         {
             var car = await _context.Car.FirstOrDefaultAsync(c => c.Id == id);
             if (car == null || car.IsReserved)
@@ -191,9 +204,12 @@ namespace TryAutoZone.Controllers
                 return NotFound();
             }
 
-            if (reservationDate < DateTime.Now.Date || reservationDate > DateTime.Now.AddDays(3).Date)
+            var tomorrow = DateTime.Now.AddDays(1).Date;
+            var maxDate = DateTime.Now.AddDays(4).Date;
+
+            if (reservationDateTime < tomorrow || reservationDateTime > maxDate)
             {
-                ModelState.AddModelError("", "Data rezerwacji musi być w zakresie od dzisiaj do 3 dni do przodu.");
+                ModelState.AddModelError("", "Data i czas rezerwacji muszą być w zakresie od jutra do 3 dni od jutra.");
                 return View("Details", car);
             }
 
@@ -201,7 +217,7 @@ namespace TryAutoZone.Controllers
             {
                 CarId = car.Id,
                 UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                ReservationDate = reservationDate
+                ReservationDate = reservationDateTime
             };
 
             car.IsReserved = true;

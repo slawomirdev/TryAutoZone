@@ -33,10 +33,10 @@
                     {
                         <form asp-controller="Cars" asp-action="Reserve" asp-route-id="@Model.Id">
                             <div class="mb-3">
-                                <label for="reservationDate" class="form-label">Data rezerwacji</label>
-                                <input type="date" id="reservationDate" name="reservationDate"
-                                       min="@DateTime.Now.ToString("yyyy-MM-dd")"
-                                       max="@DateTime.Now.AddDays(3).ToString("yyyy-MM-dd")"
+                                <label for="reservationDateTime" class="form-label">Data i czas rezerwacji</label>
+                                <input type="datetime-local" id="reservationDateTime" name="reservationDateTime"
+                                       min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm")"
+                                       max="@DateTime.Now.AddDays(4).ToString("yyyy-MM-ddTHH:mm")"
                                        class="form-control" required />
                             </div>
                             <button type="submit" class="btn btn-primary">Złóż rezerwację</button>

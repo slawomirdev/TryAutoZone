@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -182,6 +183,18 @@ namespace TryAutoZone.Controllers
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> MyReservations()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myReservations = await _context.Reservations
+                .Include(r => r.Car)
+                .Where(r => r.UserId == userId)
+                .ToListAsync();
+
+            return View(myReservations);
         }
 
         private bool ReservationExists(int id)

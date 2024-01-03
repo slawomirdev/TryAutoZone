@@ -1,0 +1,36 @@
+﻿@model IEnumerable<TryAutoZone.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Moje Rezerwacje";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Samochód</th>
+            <th>Data rezerwacji</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                <td>@reservation.Car.Make @reservation.Car.Model (@reservation.Car.Year)</td>
+                <td>@reservation.ReservationDate.ToString("g")</td>
+                <td>
+                        <a asp-controller="Cars" asp-action="Details" asp-route-id="@reservation.Car.Id" class="btn btn-primary">Szczegóły</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Nie masz obecnie żadnych rezerwacji.</p>
+}

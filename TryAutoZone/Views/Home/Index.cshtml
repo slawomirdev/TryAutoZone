@@ -38,10 +38,6 @@
                             <div class="d-flex flex-column">
                                 @if (!car.IsReserved)
                                 {
-                                    <form asp-controller="Cars" asp-action="Reserve" asp-route-id="@car.Id">
-                                        <input type="datetime-local" name="reservationDateTime" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" max="@DateTime.Now.AddDays(3).ToString("yyyy-MM-ddTHH:mm")" class="form-control mb-2" required />
-                                        <button type="submit" class="btn btn-primary">Rezerwuj</button>
-                                    </form>
                                     <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-secondary mt-2">Szczegóły</a>
                                 }
                                 else

@@ -32,12 +32,18 @@
                         @if (User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Index">Samochody</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Index">Panel samochodów</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Rezerwacje</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Panel rezerwacji</a>
                             </li>
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="MyReservations">Moje rezerwacje</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="HowItWorks">Jak to działa?</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Polityka prywatności</a>
                         </li>
@@ -55,7 +61,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - TryAutoZone - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 TryAutoZone. Wszelkie prawa zastrzeżone.
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -62,7 +62,7 @@ namespace TryAutoZone.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Create([Bind("Id,Make,Model,Year,HorsePower,EngineCapacity,EngineType,Gearbox,CO2Emission,FuelConsumptionString")] Car car)
+        public async Task<IActionResult> Create([Bind("Id,Make,Model,Year,HorsePower,EngineCapacity,EngineType,Gearbox,CO2Emission,FuelConsumptionString,Description,ImageUrl,VideoUrl")] Car car)
         {
             if (ModelState.IsValid)
             {
@@ -110,7 +110,7 @@ namespace TryAutoZone.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Make,Model,Year,HorsePower,EngineCapacity,EngineType,Gearbox,CO2Emission,FuelConsumptionString")] Car car)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Make,Model,Year,HorsePower,EngineCapacity,EngineType,Gearbox,CO2Emission,FuelConsumptionString,Description,ImageUrl,VideoUrl")] Car car)
         {
             if (id != car.Id)
             {

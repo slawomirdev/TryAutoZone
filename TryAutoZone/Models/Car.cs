@@ -29,23 +29,26 @@ namespace TryAutoZone.Models
         public int Year { get; set; }
 
         [Range(0, 2000, ErrorMessage = "Moc musi być w zakresie od 0 do 2000 KM.")]
-        public int HorsePower { get; set; } // Moc w koniach mechanicznych (KM)
+        public int HorsePower { get; set; } 
 
         [Range(0, 10000, ErrorMessage = "Pojemność silnika musi być w zakresie od 0 do 10000 cm³.")]
-        public int EngineCapacity { get; set; } // Pojemność silnika w cm³
+        public int EngineCapacity { get; set; } 
 
         public EngineType EngineType { get; set; }
 
         public GearboxType Gearbox { get; set; }
 
         [Range(0, 1000, ErrorMessage = "Emisja CO2 musi być w zakresie od 0 do 1000 g/km.")]
-        public int CO2Emission { get; set; } // Emisja CO2 w g/km
+        public int CO2Emission { get; set; } 
 
         [NotMapped]
-        public string FuelConsumptionString { get; set; } // Pole pomocnicze do obsługi formularza
+        public string FuelConsumptionString { get; set; } 
 
         [Range(0, 100, ErrorMessage = "Zużycie paliwa musi być w zakresie od 0 do 100 l/100km.")]
-        public double FuelConsumption { get; set; } // Zużycie paliwa jako liczba
+        public double FuelConsumption { get; set; }
         public bool IsReserved { get; set; }
+        public string? Description { get; set; } 
+        public string? ImageUrl { get; set; } 
+        public string? VideoUrl { get; set; } 
     }
 }

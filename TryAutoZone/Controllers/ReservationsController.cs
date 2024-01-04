@@ -139,7 +139,7 @@ namespace TryAutoZone.Controllers
                         _context.Update(oldCar);
                     }
 
-                    // Set IsReserved to true for the new car
+                   
                     var newCar = await _context.Car.FindAsync(reservation.CarId);
                     if (newCar != null)
                     {

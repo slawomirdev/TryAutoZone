@@ -55,8 +55,8 @@ namespace TryAutoZone.Controllers
         [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
-            ViewData["CarId"] = new SelectList(_context.Car, "Id", "Id");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["CarId"] = new SelectList(_context.Car.Where(c => !c.IsReserved), "Id", "Model");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email");
             return View();
         }
 
@@ -66,19 +66,29 @@ namespace TryAutoZone.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Create([Bind("Id,UserId,CarId,ReservationDate")] Reservation reservation)
+        public async Task<IActionResult> Create([Bind("UserId,CarId,ReservationDate")] Reservation reservation)
         {
-            if (ModelState.IsValid)
+            var car = await _context.Car.FirstOrDefaultAsync(c => c.Id == reservation.CarId);
+            if (car != null && !car.IsReserved)
             {
+                car.IsReserved = true;
+                _context.Update(car);
+
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
+                Console.WriteLine("Reservation created successfully.");
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CarId"] = new SelectList(_context.Car, "Id", "Id", reservation.CarId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
+            else
+            {
+                Console.WriteLine("Car is already reserved or does not exist.");
+                ModelState.AddModelError("", "Samochód jest już zarezerwowany lub nie istnieje.");
+            }
+
+            ViewData["CarId"] = new SelectList(_context.Car.Where(c => !c.IsReserved), "Id", "Model", reservation.CarId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", reservation.UserId);
             return View(reservation);
         }
-
         // GET: Reservations/Edit/5
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
@@ -165,15 +175,26 @@ namespace TryAutoZone.Controllers
         {
             if (_context.Reservations == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Reservations'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Reservations' is null.");
             }
-            var reservation = await _context.Reservations.FindAsync(id);
+
+            var reservation = await _context.Reservations
+                .Include(r => r.Car)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
             if (reservation != null)
             {
+                // Jeśli samochód jest związany z rezerwacją, zmień jego status na niezarezerwowany
+                if (reservation.Car != null)
+                {
+                    reservation.Car.IsReserved = false;
+                    _context.Update(reservation.Car);
+                }
+
                 _context.Reservations.Remove(reservation);
+                await _context.SaveChangesAsync();
             }
-            
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

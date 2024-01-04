@@ -1,47 +1,38 @@
 ﻿@model IEnumerable<TryAutoZone.Models.Reservation>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Indeks Rezerwacji";
 }
 
-<h1>Index</h1>
+<h1>Indeks Rezerwacji</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
+<p class="text-center">
+    <a asp-action="Create" class="btn btn-primary">Stwórz Nową Rezerwację</a>
 </p>
-<table class="table">
+<table class="table table-hover mt-4">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ReservationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>Data Rezerwacji</th>
+        <th>Samochód</th>
+        <th>Klient</th>
+        <th>Id klienta</th>
+        <th>Akcje</th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
+            <td >@item.ReservationDate.ToString("g")</td>
+            <td>@item.Car.Make @item.Car.Model (@item.Car.Year)</td>
+            <td>@item.User.Email</td>
+            <td>@item.User.Id</td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReservationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Car.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edytuj</a>
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Szczegóły</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Usuń</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

@@ -1,36 +1,31 @@
 ﻿@model TryAutoZone.Models.Reservation
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegóły Rezerwacji";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <h1 class="text-center">@ViewData["Title"]</h1>
 
-<div>
-    <h4>Reservation</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReservationDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReservationDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Car)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Car.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.Id)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4 class="card-title">Rezerwacja</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4">Data Rezerwacji:</dt>
+                <dd class="col-sm-8">@Model.ReservationDate.ToString("g")</dd>
+
+                <dt class="col-sm-4">Samochód:</dt>
+                <dd class="col-sm-8">@Model.Car.Make @Model.Car.Model (@Model.Car.Year)</dd>
+
+                <dt class="col-sm-4">Użytkownik:</dt>
+                <dd class="col-sm-8">@Model.User.Email</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edytuj</a>
+        <a asp-action="Index" class="btn btn-secondary ml-2">Powrót do Listy</a>
+    </div>
 </div>

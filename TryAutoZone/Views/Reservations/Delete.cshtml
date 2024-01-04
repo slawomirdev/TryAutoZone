@@ -1,0 +1,37 @@
+﻿@model TryAutoZone.Models.Reservation
+
+@{
+    ViewData["Title"] = "Usuń Rezerwację";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <h3 class="text-center text-danger mb-4">Czy na pewno chcesz usunąć tę rezerwację?</h3>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Szczegóły Rezerwacji</h4>
+            <dl class="row">
+                <dt class="col-sm-4">Data Rezerwacji:</dt>
+                <dd class="col-sm-8">@Model.ReservationDate.ToString("g")</dd>
+
+                <dt class="col-sm-4">Samochód:</dt>
+                <dd class="col-sm-8">@Model.Car.Make @Model.Car.Model</dd>
+
+                <dt class="col-sm-4">Użytkownik:</dt>
+                <dd class="col-sm-8">@Model.User.Email</dd>
+                
+                <dt class="col-sm-4">Id użytkownika:</dt>
+                <dd class="col-sm-8">@Model.User.Id</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Usuń</button>
+            <a asp-action="Index" class="btn btn-secondary ml-2">Anuluj</a>
+        </form>
+    </div>
+</div>

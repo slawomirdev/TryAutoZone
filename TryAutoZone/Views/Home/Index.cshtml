@@ -1,8 +1,96 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<TryAutoZone.Models.Car>
+
+@{
+    ViewData["Title"] = "Strona Główna";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mb-4">
+    <div class="jumbotron">
+        <h1 class="display-5">Doświadcz Jazdy z Toyotą w TryAutoZone</h1>
+        <p class="lead">Odkryj pełnię możliwości samochodów Toyota podczas jazdy próbnej.</p>
+        <hr class="my-4">
+        <p>W TryAutoZone specjalizujemy się w organizowaniu jazd próbnych z gamą pojazdów Toyota. Nasz serwis oferuje unikalną możliwość przetestowania różnych modeli Toyota, abyś mógł doświadczyć ich wyjątkowych cech i komfortu jazdy. Proces rezerwacji jest prosty i szybki, dzięki czemu możesz łatwo zaplanować swoją jazdę próbną.</p>
+    </div>
+</div>
+
+<div class="container mb-4">
+    <div class="row mb-3">
+        <div class="col-12">
+            <h2 class="text-center">Auta w Wypożyczalni</h2>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var car in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <img src="@(!string.IsNullOrEmpty(@car.ImageUrl) ? @car.ImageUrl : "~/images/placeholder.png")" asp-append-version="true" alt="Samochód" class="img-fluid">
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Make @car.Model</h5>
+                        <p class="card-text">
+                            Rok: @car.Year<br>
+                            Moc: @car.HorsePower KM<br>
+                            Rodzaj silnika: @car.EngineType<br>
+                            Skrzynia biegów: @car.Gearbox<br>
+                        </p>
+                        <div class="card-body">
+                            <div class="d-flex flex-column">
+                                @if (!car.IsReserved)
+                                {
+                                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-secondary mt-2">Szczegóły</a>
+                                }
+                                else
+                                {
+                                    <p class="text-danger text-center">Auto Zarezerwowane</p>
+                                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-secondary">Szczegóły</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="testimonial bg-light p-4">
+                <h2 class="text-center">Nam możesz zaufać</h2>
+                <p class="text-center">9 na 10 klientów poleciłoby naszą firmę swoim znajomym. Dziękujemy!</p>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card-deck mt-3">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Jan Kowalski</h5>
+                        <p class="card-text">"Niesamowite doświadczenie! Toyota spełniła wszystkie moje oczekiwania, a serwis TryAutoZone zapewnił profesjonalną obsługę. Polecam!"</p>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Anna Nowak</h5>
+                        <p class="card-text">"Jazda próbna była fantastyczna. To najlepszy sposób, aby przekonać się, jak wspaniałe są te samochody. Dzięki TryAutoZone!"</p>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Piotr Wiśniewski</h5>
+                        <p class="card-text">"Rewelacyjna obsługa i niesamowite samochody. TryAutoZone zdecydowanie wie, jak zadowolić klienta. Polecam każdemu."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-12">
+            <h2 class="text-center">Gdzie nas znajdziesz</h2>
+            <iframe class="map-iframe" width="1047" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="https://maps.google.com/maps?width=1047&height=400&hl=en&q=Piekary%2013%20Poznan+()&t=&z=12&ie=UTF8&iwloc=B&output=embed"></iframe> <a href='http://maps-generator.com/pl'>maps-generator.com</a> <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=6db0fd41e58bc415f8e729d906987ecd5671b28a'></script>
+            <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=6db0fd41e58bc415f8e729d906987ecd5671b28a'></script>
+        </div>
+    </div>
 </div>

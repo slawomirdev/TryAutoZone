@@ -1,0 +1,116 @@
+﻿@model TryAutoZone.Models.Car
+
+@{
+    ViewData["Title"] = "Szczegóły";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Szczegóły samochodu</h1>
+
+    @if (TempData["ReservationSuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-center">
+            @TempData["ReservationSuccessMessage"]
+        </div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+                <img src="@(!string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "~/images/placeholder.png")" asp-append-version="true" alt="Samochód" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Make @Model.Model</h5>
+                    <p class="card-text">
+                        <strong>Rok produkcji:</strong> @Model.Year<br>
+                        <strong>Moc:</strong> @Model.HorsePower KM<br>
+                        <strong>Pojemność silnika:</strong> @Model.EngineCapacity cm³<br>
+                        <strong>Rodzaj silnika:</strong> @Model.EngineType<br>
+                        <strong>Skrzynia biegów:</strong> @Model.Gearbox<br>
+                        <strong>Emisja CO2:</strong> @Model.CO2Emission g/km<br>
+                        <strong>Zużycie paliwa:</strong> @String.Format("{0:F1}", Model.FuelConsumption) l/100km
+                    </p>
+                    @if (!Model.IsReserved)
+                    {
+                        <form asp-controller="Cars" asp-action="Reserve" asp-route-id="@Model.Id">
+                            <div class="mb-3">
+                                <label for="reservationDateTime" class="form-label">Data i czas rezerwacji</label>
+                                <input type="datetime-local" id="reservationDateTime" name="reservationDateTime"
+                                       min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm")"
+                                       max="@DateTime.Now.AddDays(4).ToString("yyyy-MM-ddTHH:mm")"
+                                       class="form-control" required />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Złóż rezerwację</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <p class="text-danger text-center">Auto jest obecnie zarezerwowane.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row justify-content-center my-4">
+        <div class="col-md-8">
+        @if (!string.IsNullOrEmpty(Model.VideoUrl))
+        {
+            <div class="ratio ratio-16x9 mb-3">
+                <iframe src="https://www.youtube.com/embed/HSL45Mk77ys" title="YouTube video" allowfullscreen></iframe>
+            </div>
+        }
+            <div class="p-3">
+                <h2 class="h5 text-center">Zbudowana przez mistrzów dla kierowców żądnych wrażeń</h2>
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <p>
+                    Od ponad 60 lat Toyota testuje wytrzymałość swoich aut i umiejętności kierowców na torach całego świata.
+                    Zbierane w ten sposób doświadczenie pozwala konstruować jeszcze lepsze auta do jazdy na co dzień.
+                    Dla Akio Toyody, Prezesa Zarządu Toyota Motor Corporation, GR Yaris jest ucieleśnieniem ideału –
+                    samochodem zahartowanym w trudach Rajdowych Mistrzostw Świata, który wywołuje emocje również podczas
+                    codziennych podróży.
+                </p>
+            }
+            </div>
+        </div>
+    </div>
+    
+    <div class="row my-4">
+        <div class="col-md-12">
+            <h2 class="text-center">Nasze zaangażowanie w Twoje doświadczenie</h2>
+            <p class="text-justify">
+                W TryAutoZone, z pasją podchodzimy do każdego aspektu jazdy. Nie tylko oferujemy szeroki wybór modeli, ale również zapewniamy wsparcie i doradztwo na każdym kroku Twojej podróży. Naszym celem jest dostarczenie nie tylko samochodu, ale kompleksowego doświadczenia, które przekracza oczekiwania.
+            </p>
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <div class="col-md-12 d-flex justify-content-start">
+            <img src="~/images/salon.jpg" alt="Salon TryAutoZone" class="img-fluid rounded">
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <div class="col-md-12 d-flex justify-content-end">
+            <img src="~/images/salon2.jpg" alt="Salon TryAutoZone" class="img-fluid rounded">
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <div class="col-md-12">
+            <h2 class="text-center">Dlaczego TryAutoZone?</h2>
+            <p class="text-justify">
+                Wybór TryAutoZone oznacza wybór jakości i zaufania. Nasze auta są starannie wyselekcjonowane i regularnie serwisowane, aby zapewnić bezpieczeństwo i niezawodność. Jesteśmy tu, aby pomóc Ci znaleźć auto, które najlepiej odpowiada Twojemu stylowi życia i potrzebom.
+            </p>
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <div class="col-md-12">
+            <h2 class="text-center">Przeżyj jazdę marzeń</h2>
+            <p class="text-justify">
+                Jazda próbna w TryAutoZone to coś więcej niż zwykła przejażdżka. To szansa na przeżycie jazdy marzeń. Oferujemy różnorodne trasy i scenariusze jazdy, abyś mógł w pełni doświadczyć możliwości wybranego modelu Toyoty.
+            </p>
+        </div>
+    </div>
+</div>

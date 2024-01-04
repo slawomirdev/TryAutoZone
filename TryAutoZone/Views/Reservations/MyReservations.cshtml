@@ -1,0 +1,40 @@
+﻿@model IEnumerable<TryAutoZone.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Moje Rezerwacje";
+}
+
+<h2 class="text-center my-4">@ViewData["Title"]</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th> 
+            <th>Samochód</th>
+            <th>Data rezerwacji</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                    <td class="align-middle">
+                        <img src="@(!string.IsNullOrEmpty(reservation.Car.ImageUrl) ? reservation.Car.ImageUrl : "~/images/placeholder.png")" asp-append-version="true" alt="@reservation.Car.Make @reservation.Car.Model" class="img-fluid" style="max-width: 100px; height: auto;">
+                    </td>
+                    <td class="align-middle">@reservation.Car.Make @reservation.Car.Model (@reservation.Car.Year)</td>
+                    <td class="align-middle">@reservation.ReservationDate.ToString("g")</td>
+                    <td class="align-middle">
+                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@reservation.Car.Id" class="btn btn-primary">Szczegóły</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-center">Nie masz obecnie żadnych rezerwacji. <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Przejdź na stronę główną</a></p>
+}

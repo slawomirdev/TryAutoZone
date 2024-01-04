@@ -1,0 +1,47 @@
+﻿@model TryAutoZone.Models.Car
+
+@{
+    ViewData["Title"] = "Usuń Samochód";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <h3 class="text-center text-danger mb-4">Czy na pewno chcesz usunąć ten samochód?</h3>
+
+    <div class="card mb-4">
+        <img src="@(!string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "~/images/placeholder.png")" style="max-height: 200px; object-fit: scale-down;" alt="@Model.Make @Model.Model" asp-append-version="true" class="card-img-top">
+        <div class="card-body">
+            <h4 class="card-title">@Model.Make @Model.Model (@Model.Year)</h4>
+            <dl class="row">
+                <dt class="col-sm-4">Marka:</dt>
+                <dd class="col-sm-8">@Model.Make</dd>
+                <dt class="col-sm-4">Model:</dt>
+                <dd class="col-sm-8">@Model.Model</dd>
+                <dt class="col-sm-4">Rok Produkcji:</dt>
+                <dd class="col-sm-8">@Model.Year</dd>
+                <dt class="col-sm-4">Moc [KM]:</dt>
+                <dd class="col-sm-8">@Model.HorsePower</dd>
+                <dt class="col-sm-4">Pojemność Silnika [cm³]:</dt>
+                <dd class="col-sm-8">@Model.EngineCapacity</dd>
+                <dt class="col-sm-4">Rodzaj Silnika:</dt>
+                <dd class="col-sm-8">@Model.EngineType</dd>
+                <dt class="col-sm-4">Skrzynia Biegów:</dt>
+                <dd class="col-sm-8">@Model.Gearbox</dd>
+                <dt class="col-sm-4">Emisja CO2 [g/km]:</dt>
+                <dd class="col-sm-8">@Model.CO2Emission</dd>
+                <dt class="col-sm-4">Zużycie Paliwa [l/100km]:</dt>
+                <dd class="col-sm-8">@Model.FuelConsumption.ToString("F1") l/100km</dd>
+                <dt class="col-sm-4">Opis:</dt>
+                <dd class="col-sm-8">@Model.Description</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Usuń</button>
+            <a asp-action="Index" class="btn btn-secondary ml-2">Powrót do Listy</a>
+        </form>
+    </div>
+</div>

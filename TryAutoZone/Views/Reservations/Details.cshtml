@@ -1,0 +1,31 @@
+﻿@model TryAutoZone.Models.Reservation
+
+@{
+    ViewData["Title"] = "Szczegóły Rezerwacji";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4 class="card-title">Rezerwacja</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4">Data Rezerwacji:</dt>
+                <dd class="col-sm-8">@Model.ReservationDate.ToString("g")</dd>
+
+                <dt class="col-sm-4">Samochód:</dt>
+                <dd class="col-sm-8">@Model.Car.Make @Model.Car.Model (@Model.Car.Year)</dd>
+
+                <dt class="col-sm-4">Użytkownik:</dt>
+                <dd class="col-sm-8">@Model.User.Email</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edytuj</a>
+        <a asp-action="Index" class="btn btn-secondary ml-2">Powrót do Listy</a>
+    </div>
+</div>

@@ -121,30 +121,55 @@ namespace TryAutoZone.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var originalReservation = await _context.Reservations.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
+            if (originalReservation == null)
             {
-                try
+                return NotFound();
+            }
+
+            try
+            {
+                // Set IsReserved to false for the old car if the car is changed
+                if (originalReservation.CarId != reservation.CarId)
                 {
-                    _context.Update(reservation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReservationExists(reservation.Id))
+                    var oldCar = await _context.Car.FindAsync(originalReservation.CarId);
+                    if (oldCar != null)
                     {
-                        return NotFound();
+                        oldCar.IsReserved = false;
+                        _context.Update(oldCar);
                     }
-                    else
+
+                   
+                    var newCar = await _context.Car.FindAsync(reservation.CarId);
+                    if (newCar != null)
                     {
-                        throw;
+                        newCar.IsReserved = true;
+                        _context.Update(newCar);
                     }
                 }
+
+                _context.Update(reservation);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ReservationExists(reservation.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
             ViewData["CarId"] = new SelectList(_context.Car, "Id", "Id", reservation.CarId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
             return View(reservation);
         }
+
+
+
 
         // GET: Reservations/Delete/5
         [Authorize(Roles = "Administrator")]

@@ -1,82 +1,82 @@
 ﻿@model TryAutoZone.Models.Car
 
 @{
-    ViewData["Title"] = "Edycja";
+    ViewData["Title"] = "Edycja Samochodu";
 }
 
-<h1>Edycja</h1>
+<h1 class="text-center">Edycja Samochodu</h1>
 
-<h4>Samochód</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
 
-            <div class="form-group">
-                <label asp-for="Make" class="control-label"></label>
-                <select asp-for="Make" asp-items="Html.GetEnumSelectList<CarMake>()" class="form-control"></select>
-                <span asp-validation-for="Make" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="Make" class="control-label">Marka</label>
+                    <select asp-for="Make" asp-items="Html.GetEnumSelectList<CarMake>()" class="form-control"></select>
+                    <span asp-validation-for="Make" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Model" class="control-label"></label>
-                <input asp-for="Model" class="form-control" />
-                <span asp-validation-for="Model" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="Model" class="control-label">Model</label>
+                    <input asp-for="Model" class="form-control" />
+                    <span asp-validation-for="Model" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Year" class="control-label"></label>
-                <input asp-for="Year" class="form-control" />
-                <span asp-validation-for="Year" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="Year" class="control-label">Rok Produkcji</label>
+                    <input asp-for="Year" class="form-control" />
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="HorsePower" class="control-label"></label>
-                <input asp-for="HorsePower" class="form-control" />
-                <span asp-validation-for="HorsePower" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="HorsePower" class="control-label">Moc [KM]</label>
+                    <input asp-for="HorsePower" class="form-control" />
+                    <span asp-validation-for="HorsePower" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="EngineCapacity" class="control-label"></label>
-                <input asp-for="EngineCapacity" class="form-control" />
-                <span asp-validation-for="EngineCapacity" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="EngineCapacity" class="control-label">Pojemność Silnika [cm³]</label>
+                    <input asp-for="EngineCapacity" class="form-control" />
+                    <span asp-validation-for="EngineCapacity" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="EngineType" class="control-label"></label>
-                <select asp-for="EngineType" asp-items="Html.GetEnumSelectList<EngineType>()" class="form-control"></select>
-                <span asp-validation-for="EngineType" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="EngineType" class="control-label">Rodzaj Silnika</label>
+                    <select asp-for="EngineType" asp-items="Html.GetEnumSelectList<EngineType>()" class="form-control"></select>
+                    <span asp-validation-for="EngineType" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Gearbox" class="control-label"></label>
-                <select asp-for="Gearbox" asp-items="Html.GetEnumSelectList<GearboxType>()" class="form-control"></select>
-                <span asp-validation-for="Gearbox" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="Gearbox" class="control-label">Skrzynia Biegów</label>
+                    <select asp-for="Gearbox" asp-items="Html.GetEnumSelectList<GearboxType>()" class="form-control"></select>
+                    <span asp-validation-for="Gearbox" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="CO2Emission" class="control-label"></label>
-                <input asp-for="CO2Emission" class="form-control" />
-                <span asp-validation-for="CO2Emission" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="CO2Emission" class="control-label">Emisja CO2 [g/km]</label>
+                    <input asp-for="CO2Emission" class="form-control" />
+                    <span asp-validation-for="CO2Emission" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="FuelConsumptionString" class="control-label"></label>
-                <input asp-for="FuelConsumptionString" class="form-control" />
-                <span asp-validation-for="FuelConsumptionString" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="FuelConsumptionString" class="control-label">Zużycie Paliwa [l/100km]</label>
+                    <input asp-for="FuelConsumptionString" class="form-control" />
+                    <span asp-validation-for="FuelConsumptionString" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-group text-center mt-2">
+                    <input type="submit" value="Zapisz" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Wróć do listy</a>
+<div class="text-center mt-3">
+    <a asp-action="Index" class="btn btn-secondary">Wróć do Listy</a>
 </div>
 
 @section Scripts {

@@ -147,20 +147,12 @@ namespace TryAutoZone.Controllers
 
             var reservation = await _context.Reservations
                 .Include(r => r.Car)
+                .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
                 return NotFound();
             }
-
-            _context.Reservations.Remove(reservation);
-            if (reservation.Car != null)
-            {
-                reservation.Car.IsReserved = false;
-                _context.Update(reservation.Car);
-            }
-
-            await _context.SaveChangesAsync();
 
             return View(reservation);
         }

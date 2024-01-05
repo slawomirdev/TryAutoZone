@@ -24,7 +24,7 @@
         {
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm h-100">
-                    <img src="@(!string.IsNullOrEmpty(@car.ImageUrl) ? @car.ImageUrl : "~/images/placeholder.png")" asp-append-version="true" alt="Samochód" class="img-fluid">
+                    <img src="@(!string.IsNullOrEmpty(@car.ImageUrl) ? @car.ImageUrl : "~/images/placeholder.png")" asp-append-version="true" alt="Samochód" class="car-image img-fluid">
                     <div class="card-body">
                         <h5 class="card-title">@car.Make @car.Model</h5>
                         <p class="card-text">

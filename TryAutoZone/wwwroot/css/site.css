@@ -38,3 +38,12 @@ body {
 .card, .testimonial, .btn {
     border-radius: 8px !important;
 }
+
+.card {
+    overflow: hidden;
+}
+
+.car-image {
+    height: 228px;
+    object-fit: cover;
+}

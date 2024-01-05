@@ -56,7 +56,7 @@
         @if (!string.IsNullOrEmpty(Model.VideoUrl))
         {
             <div class="ratio ratio-16x9 mb-3">
-                <iframe src="https://www.youtube.com/embed/HSL45Mk77ys" title="YouTube video" allowfullscreen></iframe>
+                    <iframe src="@Model.VideoUrl" title="YouTube video" allowfullscreen></iframe>
             </div>
         }
             <div class="p-3">
@@ -64,11 +64,7 @@
             @if (!string.IsNullOrEmpty(Model.Description))
             {
                 <p>
-                    Od ponad 60 lat Toyota testuje wytrzymałość swoich aut i umiejętności kierowców na torach całego świata.
-                    Zbierane w ten sposób doświadczenie pozwala konstruować jeszcze lepsze auta do jazdy na co dzień.
-                    Dla Akio Toyody, Prezesa Zarządu Toyota Motor Corporation, GR Yaris jest ucieleśnieniem ideału –
-                    samochodem zahartowanym w trudach Rajdowych Mistrzostw Świata, który wywołuje emocje również podczas
-                    codziennych podróży.
+                  @Model.Description
                 </p>
             }
             </div>

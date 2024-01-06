@@ -46,6 +46,22 @@ namespace TryAutoZone.Controllers
                 return NotFound();
             }
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isFavorite = User.Identity.IsAuthenticated &&
+                             _context.FavoriteCar.Any(fc => fc.CarId == id && fc.UserId == userId);
+
+            int? favoriteCarId = null;
+            if (isFavorite)
+            {
+                favoriteCarId = _context.FavoriteCar
+                    .Where(fc => fc.CarId == id && fc.UserId == userId)
+                    .Select(fc => fc.Id)
+                    .FirstOrDefault();
+            }
+
+            ViewBag.IsFavorite = isFavorite;
+            ViewBag.FavoriteCarId = favoriteCarId;
+
             return View(car);
         }
 

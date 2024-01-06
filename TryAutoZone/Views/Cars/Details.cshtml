@@ -38,6 +38,13 @@
                                        min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm")"
                                        max="@DateTime.Now.AddDays(4).ToString("yyyy-MM-ddTHH:mm")"
                                        class="form-control" required />
+                                <small class="form-text text-muted">
+                                    Data rezerwacji powinna być ustawiona na co najmniej 1 dzień, ale nie więcej niż 4 dni od dzisiejszej daty.
+                                </small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="additionalInformation" class="form-label">Dodatkowe Informacje</label>
+                                <textarea id="additionalInformation" name="additionalInformation" class="form-control"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Złóż rezerwację</button>
                         </form>

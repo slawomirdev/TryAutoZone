@@ -66,7 +66,7 @@ namespace TryAutoZone.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Create([Bind("UserId,CarId,ReservationDate")] Reservation reservation)
+        public async Task<IActionResult> Create([Bind("UserId,CarId,ReservationDate,AdditionalInformation")] Reservation reservation)
         {
             var car = await _context.Car.FirstOrDefaultAsync(c => c.Id == reservation.CarId);
             if (car != null && !car.IsReserved)
@@ -114,7 +114,7 @@ namespace TryAutoZone.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,CarId,ReservationDate")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,CarId,ReservationDate,AdditionalInformation")] Reservation reservation)
         {
             if (id != reservation.Id)
             {

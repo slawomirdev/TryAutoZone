@@ -64,6 +64,8 @@ await Task.Run(async () =>
     }
 });
 
+
+// Demonstracyjne konto admina
 await Task.Run(async () =>
 {
     using (var scope = app.Services.CreateScope())

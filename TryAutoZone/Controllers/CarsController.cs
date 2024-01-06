@@ -196,7 +196,7 @@ namespace TryAutoZone.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Reserve(int id, DateTime reservationDateTime)
+        public async Task<IActionResult> Reserve(int id, DateTime reservationDateTime, string additionalInformation)
         {
             var car = await _context.Car.FirstOrDefaultAsync(c => c.Id == id);
             if (car == null || car.IsReserved)
@@ -217,7 +217,8 @@ namespace TryAutoZone.Controllers
             {
                 CarId = car.Id,
                 UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                ReservationDate = reservationDateTime
+                ReservationDate = reservationDateTime,
+                AdditionalInformation = additionalInformation
             };
 
             car.IsReserved = true;

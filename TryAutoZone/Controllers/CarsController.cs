@@ -194,40 +194,5 @@ namespace TryAutoZone.Controllers
         {
           return (_context.Car?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-
-        [Authorize]
-        public async Task<IActionResult> Reserve(int id, DateTime reservationDateTime, string additionalInformation)
-        {
-            var car = await _context.Car.FirstOrDefaultAsync(c => c.Id == id);
-            if (car == null || car.IsReserved)
-            {
-                return NotFound();
-            }
-
-            var tomorrow = DateTime.Now.AddDays(1).Date;
-            var maxDate = DateTime.Now.AddDays(4).Date;
-
-            if (reservationDateTime < tomorrow || reservationDateTime > maxDate)
-            {
-                ModelState.AddModelError("", "Data i czas rezerwacji muszą być w zakresie od jutra do 3 dni od jutra.");
-                return View("Details", car);
-            }
-
-            var reservation = new Reservation
-            {
-                CarId = car.Id,
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                ReservationDate = reservationDateTime,
-                AdditionalInformation = additionalInformation
-            };
-
-            car.IsReserved = true;
-            _context.Add(reservation);
-            await _context.SaveChangesAsync();
-
-            TempData["ReservationSuccessMessage"] = "Rezerwacja została pomyślnie złożona.";
-
-            return View("Details", car);
-        }
     }
 }

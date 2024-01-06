@@ -2,8 +2,6 @@
 
 @{
     ViewData["Title"] = "Edit Reservation";
-    var minDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm");
-    var maxDate = DateTime.Now.AddDays(4).ToString("yyyy-MM-ddTHH:mm");
 }
 
 <h1 class="mb-4">Edit Reservation</h1>
@@ -24,8 +22,7 @@
             </div>
             <div class="form-group mb-4">
                 <label asp-for="ReservationDate" class="form-label">Reservation Date</label>
-                <input asp-for="ReservationDate" type="datetime-local" class="form-control"
-                       min="@minDate" max="@maxDate" />
+                <input asp-for="ReservationDate" type="datetime-local" class="form-control"/>
                 <span asp-validation-for="ReservationDate" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">

@@ -11,5 +11,6 @@ namespace TryAutoZone.Models
 
         public virtual Car Car { get; set; }
         public virtual IdentityUser User { get; set; }
+        public string? AdditionalInformation { get; set; }
     }
 }

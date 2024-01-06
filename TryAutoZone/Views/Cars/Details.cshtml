@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Szczegóły";
+    var minDate = DateTime.Now.AddDays(1).Date.ToString("yyyy-MM-ddT00:00");
+    var maxDate = DateTime.Now.AddDays(4).Date.AddHours(23).AddMinutes(59).ToString("yyyy-MM-ddTHH:mm");
 }
 
 <div class="container mt-4">
@@ -31,13 +33,24 @@
                     </p>
                     @if (!Model.IsReserved)
                     {
-                        <form asp-controller="Cars" asp-action="Reserve" asp-route-id="@Model.Id">
+                        <form asp-controller="Reservations" asp-action="Reserve" asp-route-id="@Model.Id">
                             <div class="mb-3">
                                 <label for="reservationDateTime" class="form-label">Data i czas rezerwacji</label>
                                 <input type="datetime-local" id="reservationDateTime" name="reservationDateTime"
-                                       min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm")"
-                                       max="@DateTime.Now.AddDays(4).ToString("yyyy-MM-ddTHH:mm")"
+                                       min="@minDate"
+                                       max="@maxDate"
                                        class="form-control" required />
+                                <small class="form-text text-muted">
+                                    Data rezerwacji powinna być ustawiona na co najmniej 1 dzień, ale nie więcej niż 4 dni od dzisiejszej daty.
+                                </small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="additionalInformation" class="form-label">Dodatkowe Informacje</label>
+                                <textarea id="additionalInformation" name="additionalInformation" class="form-control">
+                                </textarea>
+                                <small class="form-text text-muted">
+                                    W tym miejscu możesz wpisać swoje dane kontaktowe oraz ewentualne pytania dotyczące auta.
+                                </small>
                             </div>
                             <button type="submit" class="btn btn-primary">Złóż rezerwację</button>
                         </form>

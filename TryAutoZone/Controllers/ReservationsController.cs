@@ -66,7 +66,7 @@ namespace TryAutoZone.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Create([Bind("UserId,CarId,ReservationDate")] Reservation reservation)
+        public async Task<IActionResult> Create([Bind("UserId,CarId,ReservationDate,AdditionalInformation")] Reservation reservation)
         {
             var car = await _context.Car.FirstOrDefaultAsync(c => c.Id == reservation.CarId);
             if (car != null && !car.IsReserved)
@@ -114,7 +114,7 @@ namespace TryAutoZone.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,CarId,ReservationDate")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,CarId,ReservationDate,AdditionalInformation")] Reservation reservation)
         {
             if (id != reservation.Id)
             {
@@ -129,7 +129,6 @@ namespace TryAutoZone.Controllers
 
             try
             {
-                // Set IsReserved to false for the old car if the car is changed
                 if (originalReservation.CarId != reservation.CarId)
                 {
                     var oldCar = await _context.Car.FindAsync(originalReservation.CarId);
@@ -238,6 +237,41 @@ namespace TryAutoZone.Controllers
         private bool ReservationExists(int id)
         {
           return (_context.Reservations?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Reserve(int id, DateTime reservationDateTime, string additionalInformation)
+        {
+            var car = await _context.Car.FirstOrDefaultAsync(c => c.Id == id);
+            if (car == null || car.IsReserved)
+            {
+                return NotFound();
+            }
+
+            var tomorrow = DateTime.Now.AddDays(1).Date;
+            var maxDate = DateTime.Now.AddDays(4).Date.AddHours(23).AddMinutes(59);
+
+            if (reservationDateTime < tomorrow || reservationDateTime > maxDate)
+            {
+                ModelState.AddModelError("", "Data i czas rezerwacji muszą być w zakresie od jutra do 3 dni od jutra.");
+                return RedirectToAction("Details", "Cars", new { id = car.Id });
+            }
+
+            var reservation = new Reservation
+            {
+                CarId = car.Id,
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                ReservationDate = reservationDateTime,
+                AdditionalInformation = additionalInformation
+            };
+
+            car.IsReserved = true;
+            _context.Add(reservation);
+            await _context.SaveChangesAsync();
+
+            TempData["ReservationSuccessMessage"] = "Rezerwacja została pomyślnie złożona.";
+
+            return RedirectToAction("Details", "Cars", new { id = car.Id });
         }
     }
 }

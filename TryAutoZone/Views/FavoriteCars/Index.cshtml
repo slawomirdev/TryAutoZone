@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TryAutoZone.Models.FavoriteCar>
+
+<h2 class="mb-4">Ulubione Samochody</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Nie masz jeszcze ulubionych samochodów.</div>
+}
+else
+{
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Marka i model</th>
+            <th>Rok</th>
+            <th>Moc</th>
+            <th>Pojemność silnika</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>@item.Car.Make @item.Car.Model</td>
+                <td>@item.Car.Year</td>
+                <td>@item.Car.HorsePower KM</td>
+                <td>@item.Car.EngineCapacity cm³</td>
+                <td>
+                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@item.CarId" class="btn btn-primary btn-sm">Szczegóły</a>
+                    <form asp-action="Delete" method="post" asp-route-id="@item.Id" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Czy na pewno chcesz usunąć ten samochód z ulubionych?');">Usuń</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

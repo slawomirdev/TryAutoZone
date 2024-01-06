@@ -21,5 +21,7 @@ namespace TryAutoZone.Data
                 .Property(car => car.FuelConsumption)
                 .HasPrecision(5, 2); 
         }
+
+        public DbSet<TryAutoZone.Models.FavoriteCar>? FavoriteCar { get; set; }
     }
 }

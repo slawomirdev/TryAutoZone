@@ -3,6 +3,8 @@
 ## Jak Uruchomić
 Szczegółowe instrukcje dotyczące uruchomienia projektu można znaleźć w pliku [Dokumentacja Techniczna](./Dokumentacja.pdf).
 
+https://docs.google.com/document/d/1bj5-KSiUCBPGMQDRA4MNRMqzc9kBvvaQp8eVGi8GG88/edit?usp=sharing
+
 ## O Projekcie
 TryAutoZone to aplikacja webowa przeznaczona dla małych wypożyczalni samochodów, umożliwiająca rezerwowanie jazd próbnych przez użytkowników. Projekt został stworzony jako część zaliczenia przedmiotu Programowanie Zaawansowane na Uniwersytecie WSB Merito w Poznaniu.
 

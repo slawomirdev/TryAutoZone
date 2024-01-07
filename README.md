@@ -11,7 +11,9 @@ TryAutoZone to aplikacja webowa przeznaczona dla małych wypożyczalni samochod�
 ## Funkcje
 - Rezerwacja jazd próbnych.
 - Zarządzanie flotą pojazdów przez administratora.
-- Autentykacja i zarządzanie kontami użytkowników.
+- Zarządzanie rezerwacjami
+- Dodawanie aut do ulubionych
+- Autentykacja
 
 ## Technologie
 - Backend: ASP.NET Core MVC, C#

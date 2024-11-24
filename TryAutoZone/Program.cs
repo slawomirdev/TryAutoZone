@@ -5,6 +5,16 @@ using TryAutoZone.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        var configuration = builder.Configuration; // Inject IConfiguration if in older projects
+        options.ClientId = configuration["Authentication:Google:ClientId"];
+        options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+    });
+
+
 // Culture set
 var cultureInfo = new CultureInfo("pl-PL");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;

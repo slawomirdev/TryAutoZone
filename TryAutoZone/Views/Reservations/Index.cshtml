@@ -38,3 +38,43 @@
     }
     </tbody>
 </table>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<h3>Udział rezerwacji według rodzaju silnika</h3>
+<canvas id="engineTypeChart" width="400" height="200"></canvas>
+<script>
+    async function loadPieChart() {
+        const response = await fetch('/Reservations/GetReservationsByEngineType');
+        const data = await response.json();
+
+        const labels = data.map(item => item.engineType);
+        const values = data.map(item => item.count);
+
+        new Chart(document.getElementById('engineTypeChart'), {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+    }
+
+    loadPieChart();
+</script>

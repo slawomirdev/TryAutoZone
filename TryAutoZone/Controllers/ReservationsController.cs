@@ -191,6 +191,40 @@ namespace TryAutoZone.Controllers
             return View(reservation);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> GetReservationsByBrand()
+        {
+            var data = await _context.Reservations
+                .Include(r => r.Car)
+                .GroupBy(r => r.Car.Make)
+                .Select(g => new
+                {
+                    Brand = g.Key.ToString(),
+                    Count = g.Count()
+                })
+                .ToListAsync();
+
+            return Json(data);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> GetReservationsByEngineType()
+        {
+            var data = await _context.Reservations
+                .Include(r => r.Car)
+                .GroupBy(r => r.Car.EngineType)
+                .Select(g => new
+                {
+                    EngineType = g.Key.ToString(),
+                    Count = g.Count()
+                })
+                .ToListAsync();
+
+            return Json(data);
+        }
+
         // POST: Reservations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

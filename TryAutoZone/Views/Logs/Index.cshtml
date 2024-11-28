@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Log>
+
+<h1>System Logs</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Action</th>
+        <th>Table</th>
+        <th>Timestamp</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var log in Model)
+    {
+        <tr>
+            <td>@log.Action</td>
+            <td>@log.TableName</td>
+            <td>@log.Timestamp</td>
+            <td>@log.Description</td>
+        </tr>
+    }
+    </tbody>
+</table>

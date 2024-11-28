@@ -34,6 +34,7 @@ Projekt jest udostępniony na licencji MIT.
 ## Autorzy
 - Sławomir Mendyka
 - Wojciech Michalak
+- Marcin Michalak
 
 ## Wsparcie
 Jeśli masz jakiekolwiek pytania lub potrzebujesz pomocy, otwórz "issue" w tym repozytorium GitHub lub skontaktuj się na mendykaslawomir@gmail.com
